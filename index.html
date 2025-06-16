@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loading...</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <script>
+        // --- Configuration ---
+        // This is the URL that the user will be immediately redirected TO after the delay.
+        // It's your Flashtalking click tracker URL.
+        var actualLandingPage = 'https://servedby.flashtalking.com/click/7/280286;9639435;50126;211;0/?ft_width=1&ft_height=1&gdpr=${GDPR}&gdpr_consent=${GDPR_CONSENT_78}&url=41970707'; 
+
+        // This is the BASE URL for your Flashtalking IMPRESSION pixel.
+        // It's the part BEFORE '?gdpr=${GDPR}&gdpr_consent=${GDPR_CONSENT_78}&cachebuster=[CACHEBUSTER]'
+        var impressionPixelBase = 'https://servedby.flashtalking.com/imp/7/280286;9639435;201;pixel;AstonMediaIN;MacbookJune25BTSSSdisplayAstonMediaCompatibilityAirM4LoanContextual/'; 
+
+        // --- Dynamic Pixel Firing ---
+        var gdpr = '0'; // Adjust as per your client's GDPR strategy.
+        var gdprConsent = ''; // Placeholder for actual GDPR consent string.
+
+        // Generate a unique cachebuster for each impression (REQUIRED for accurate counting)
+        var cachebuster = Date.now() + Math.floor(Math.random() * 1000000000);
+
+        // Construct the full impression pixel URL
+        var impressionPixelSrc = impressionPixelBase + '?' +
+                               'gdpr=' + encodeURIComponent(gdpr) +
+                               '&gdpr_consent=' + encodeURIComponent(gdprConsent) +
+                               '&cachebuster=' + encodeURIComponent(cachebuster);
+
+        // --- FIRING THE IMPRESSION PIXEL ---
+        // This is the key step. Creating a new Image object and setting its 'src'
+        // tells the browser to make a GET request to that URL. This request is the impression.
+        var img = new Image();
+        img.src = impressionPixelSrc;
+
+        console.log('Flashtalking impression pixel fired:', impressionPixelSrc); // For debugging purposes (you won't see this in normal use)
+
+        // --- Redirection After Delay ---
+        // This will redirect the user after 500 milliseconds (0.5 second)
+        setTimeout(function() {
+            window.location.replace(actualLandingPage);
+        }, 500); // 500 milliseconds = 0.5 second
+
+    </script>
+
+</body>
+</html>
